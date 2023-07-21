@@ -1,13 +1,3 @@
-<?php 
-require_once("mysqlconnect.php");
-
-$sql="Select * from pharmacy";
-$result=$conn->query($sql);  
-$row= $result->fetch_assoc();  
-print_r($row);
-
-?>
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -15,21 +5,26 @@ print_r($row);
 </head>
 <body>
     <h4>Pharmacy Table</h4>
-    <table>
-        <?php
-            while($row = $result->fetch_assoc()){
-        ?>
-        <tr>
-            <td><?php echo $row['Pharmacy_ID'];?></td>
-            <td><?php echo $row['Pharmacy_Name'];?></td>
-            <td><?php echo $row['Pharmacy_Phone'];?></td>
-            <td><?php echo $row['Email'];?></td>
-            <td><?php echo $row['Address'];?></td>
-            <td><?php echo $row['Password'];?></td>
+    <table border="1">
+    <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Phone Number</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Password</th>
         </tr>
-        <?php
-            }
-        ?>
+<?php 
+require_once("mysqlconnect.php");
+
+$sql="Select * from pharmacy";
+$result=$conn->query($sql);  
+if($result->num_rows>0){
+    while($row=$result->fetch_assoc()){
+        echo "<tr><td>".$row["Pharmacy_ID"]."</td><td>".$row["Pharmacy_Name"]."</td><td>".$row["Pharmacy_Phone"]."</td><td>".$row["Email"]."</td><td>".$row["Address"]."</td><td>".$row["Password"]."</td></tr>";
+    }
+}echo"</table>";
+?>
  </table>
 </body>
 </html>

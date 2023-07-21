@@ -32,7 +32,7 @@ if(empty($ID)){
        {
         $_SESSION['Pharmacy_ID']=$row['Pharmacy_ID'];
         $_SESSION['Password']=$row['Password'];
-        header("Location: pharmacyhome.html");
+        header("Location: pharmacyhome.php");
         
        }else{
         header("Location: pharmacylogin.php?error=Incorrect username or password");
