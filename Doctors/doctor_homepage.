@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Doctor Record</title>
+</head>
+<body>
+<h2>Update Doctor Record</h2>
+<form action="adminhome.php" name="Update Doctor Record" method="POST">
+Fill in the details below: <br>
+    <label for="Doctor_SSN">Doctor SSN: </label> <br>
+    <input type="text" id="Doctor_SSN" name="Doctor_SSN"/> <br/>
+
+    <label for="Doctor_Name">Doctor Name: </label> <br>
+    <input type="text" id="Doctor_Name" name="Doctor_Name"/> <br/>
+
+    <label for="Phone_Number">Phone Number: </label> <br>
+    <input type="tel" id="Phone_Number" name="Phone_Number" placeholder="07xxxxxxxx"/> <br>
+
+    <label for="Email">Email: </label> <br>
+    <input type="email" id="Email" name="Email"/> <br>
+
+    <label for="Years_of_Experience">Years of Experience: </label> <br>
+    <input type="text" id="Years_of_Experience" name="Years_of_Experience"/> <br>
+
+    <label for="Password">Password: </label> <br>
+    <input type="password" name="Password"/> <br>
+
+    <button type="submit" name="Update">Update</button>
+
+</form>
+</body>
+</html>
+
+<?php 
+require_once("mysqlconnect.php");
+
+if(isset($_POST['Update'])){
+    $SSN = $_POST['Doctor_SSN'];
+    $Name = $_POST['Doctor_Name'];
+    $Phone_Number = $_POST['Phone_Number'];
+	$Email = $_POST['Email'];
+	$YOE = $_POST['Years_of_Experience'];
+    $Password = $_POST['Password'];
+
+    $sql =  "UPDATE `doctor` SET Doctor_Name='$Name', Phone_Number='$Phone_Number', Email='$Email', Years_of_Experience='$YOE', Password='$Password'
+        WHERE `Doctor_SSN`= $SSN";
+  
+$rs = mysqli_query($conn,$sql);
+if($rs){
+        echo "Record updated successfully";
+}
+
+}
+
+
+?>
+
