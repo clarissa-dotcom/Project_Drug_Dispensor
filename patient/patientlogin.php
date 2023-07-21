@@ -1,31 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Login</title>
-</head>
-<body>
-    <form method="POST" action="loginpage.php">
-        <h2>Patient Login</h2>
+<?php
+session_start();
 
-        <?php
-        if(isset($_GET['error'])){
-        ?>
-            <p class="error"><?php echo $_GET['error'];?></p>
-        <?php
-        }
-        ?>
+include_once "mysqlconnect.php";
 
+if(isset($_POST["Patient_SSN"])&&isset($_POST["Password"])){
 
-    <label for="Patient_SSN">Enter SSN: </label> <br>
-    <input type="text" id="Patient_SSN" name="Patient_SSN"/> <br/>
+function validate($data){
+$data=trim($data);
+$data=stripslashes($data);
+$data=htmlspecialchars($data);
+return $data;
+}    
 
-    <label for="Password">Enter Password: </label> <br>
-    <input type="password" name="Password"/> <br>
+$SSN=validate($_POST["Patient_SSN"]);
+$Password=validate($_POST["Password"]);
 
-    <button type="submit" name="Login">Log in</button>
-    </form>
-</body>
-</html>
+if(empty($SSN)){
+    header("Location: patientlogin.php?error=Username is required");
+    exit();
+}else if(empty($Password)){
+    header("Location: patientlogin.php?error=Password is required");
+    exit();
+}else {
+    $sql="Select * from patient where Patient_SSN ='$SSN' AND Password ='$Password'";
 
+    $result=mysqli_query($conn,$sql);
+
+    if(mysqli_num_rows($result)===1){
+       $row=mysqli_fetch_assoc($result);
+       if($row['Patient_SSN']===$SSN && $row['Password']=== $Password)
+       {
+        $_SESSION['Patient_SSN']=$row['Patient_SSN'];
+        $_SESSION['Password']=$row['Password'];
+        header("Location: patienthome.php");
+        
+       }else{
+        header("Location: patientlogin.php?error=Incorrect username or password");
+        exit();
+    }
+    } else{
+        header("Location: patientlogin.php?error=Incorrect username or password");
+        exit();
+    }
+}
+
+}else{
+    header("Location: patientlogin.php");
+    exit();
+
+}
+
+?>
