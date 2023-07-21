@@ -1,12 +1,60 @@
 <html>
     <head>
         <title>Patient Home Page</title>
+        <link rel="stylesheet" href="styles.css">
+
       </head>
     <body> 
+      <h1>Patient Home Page</h1>
+        <h2>Welcome Patient!</h2> 
+
+        <form action="" name="Patient Registration" method="POST">
+          Fill in the details below: <br>
+          <br>
+          <label for="Patient_SSN">Enter your Patient SSN: </label> <br>
+          <input type="text" id="Patient_SSN" name="Patient_SSN" required/> <br>
+          <br>
+      
+          <label for="Symptoms">Describe your symptoms: </label> <br>
+          <input type="text" id="Symptoms" name="Symptoms" required/> <br>
+          <!--<textarea id="symptoms" name="symptoms" cols="80" rows="5" value="symptoms">  </textarea> <br> -->
+          <br>
+
+          <button type="submit" name="Submit">Submit</button>
+          <br>
+
+        </form>
+        <br>
+        <br>
+        
      <form action="patientlogin.php" method="POST">
-      <h2>Patient Home Page</h2>
-        <p>Welcome Patient!</p>
         <button type="submit" name="Logout">Log Out</button>
      </form>
     </body>
   </html>
+
+  <?php
+
+require_once("mysqlconnect.php");
+
+if(isset($_POST['Submit'])){
+	$Patient_SSN = $_POST['Patient_SSN'];
+	$Symptoms = $_POST['Symptoms'];
+
+	$sql = "INSERT INTO symptoms (Patient_SSN, Symptoms) 
+VALUES ('$Patient_SSN', '$Symptoms')";
+
+$rs = mysqli_query($conn,$sql);
+if($rs){
+	echo "Patient symptoms entered successfully!";
+}
+else{
+	echo "New record not submitted";
+}
+
+
+}
+
+
+
+?>
